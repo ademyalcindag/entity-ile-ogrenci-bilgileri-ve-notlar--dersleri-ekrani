@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DbSınavOgrenciModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="TLBDERS">
+    <Key>
+      <PropertyRef Name="DersID" />
+    </Key>
+    <Property Name="DersID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DersAd" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="TLBNOTLAR" Relationship="Self.FK_TLBNOTLAR_TLBDERS" FromRole="TLBDERS" ToRole="TLBNOTLAR" />
+  </EntityType>
+  <EntityType Name="TLBNOTLAR">
+    <Key>
+      <PropertyRef Name="NotID" />
+    </Key>
+    <Property Name="NotID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Ogr" Type="Int32" />
+    <Property Name="Ders" Type="Int32" />
+    <Property Name="Sınav1" Type="Int16" />
+    <Property Name="Sınav2" Type="Int16" />
+    <Property Name="Sınav3" Type="Int16" />
+    <Property Name="Ortalama" Type="Decimal" Precision="5" Scale="2" />
+    <Property Name="Durum" Type="Boolean" />
+    <NavigationProperty Name="TLBDERS" Relationship="Self.FK_TLBNOTLAR_TLBDERS" FromRole="TLBNOTLAR" ToRole="TLBDERS" />
+    <NavigationProperty Name="TLBOGRENCİ" Relationship="Self.FK_TLBNOTLAR_TLBOGRENCİ" FromRole="TLBNOTLAR" ToRole="TLBOGRENCİ" />
+  </EntityType>
+  <EntityType Name="TLBOGRENCİ">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Ad" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+    <Property Name="Soyad" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+    <Property Name="Fotograf" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="TLBNOTLAR" Relationship="Self.FK_TLBNOTLAR_TLBOGRENCİ" FromRole="TLBOGRENCİ" ToRole="TLBNOTLAR" />
+  </EntityType>
+  <Association Name="FK_TLBNOTLAR_TLBDERS">
+    <End Role="TLBDERS" Type="Self.TLBDERS" Multiplicity="0..1" />
+    <End Role="TLBNOTLAR" Type="Self.TLBNOTLAR" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TLBDERS">
+        <PropertyRef Name="DersID" />
+      </Principal>
+      <Dependent Role="TLBNOTLAR">
+        <PropertyRef Name="Ders" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TLBNOTLAR_TLBOGRENCİ">
+    <End Role="TLBOGRENCİ" Type="Self.TLBOGRENCİ" Multiplicity="0..1" />
+    <End Role="TLBNOTLAR" Type="Self.TLBNOTLAR" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TLBOGRENCİ">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TLBNOTLAR">
+        <PropertyRef Name="Ogr" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DbSınavOgrenciEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="TLBDERS" EntityType="Self.TLBDERS" />
+    <EntitySet Name="TLBNOTLAR" EntityType="Self.TLBNOTLAR" />
+    <EntitySet Name="TLBOGRENCİ" EntityType="Self.TLBOGRENCİ" />
+    <AssociationSet Name="FK_TLBNOTLAR_TLBDERS" Association="Self.FK_TLBNOTLAR_TLBDERS">
+      <End Role="TLBDERS" EntitySet="TLBDERS" />
+      <End Role="TLBNOTLAR" EntitySet="TLBNOTLAR" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TLBNOTLAR_TLBOGRENCİ" Association="Self.FK_TLBNOTLAR_TLBOGRENCİ">
+      <End Role="TLBOGRENCİ" EntitySet="TLBOGRENCİ" />
+      <End Role="TLBNOTLAR" EntitySet="TLBNOTLAR" />
+    </AssociationSet>
+    <EntitySet Name="TLBKULUP" EntityType="DbSınavOgrenciModel.TLBKULUP" />
+  </EntityContainer>
+  <EntityType Name="TLBKULUP">
+    <Key>
+      <PropertyRef Name="kulupID" />
+    </Key>
+    <Property Name="kulupID" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="kulupAD" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+  </EntityType>
+</Schema>

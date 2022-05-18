@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DbSınavOgrenciModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="TLBDERS">
+    <Key>
+      <PropertyRef Name="DersID" />
+    </Key>
+    <Property Name="DersID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DersAd" Type="nchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="TLBKULUP">
+    <Key>
+      <PropertyRef Name="kulupID" />
+    </Key>
+    <Property Name="kulupID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="kulupAD" Type="nchar" MaxLength="30" />
+  </EntityType>
+  <EntityType Name="TLBNOTLAR">
+    <Key>
+      <PropertyRef Name="NotID" />
+    </Key>
+    <Property Name="NotID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Ogr" Type="int" />
+    <Property Name="Ders" Type="int" />
+    <Property Name="Sınav1" Type="smallint" />
+    <Property Name="Sınav2" Type="smallint" />
+    <Property Name="Sınav3" Type="smallint" />
+    <Property Name="Ortalama" Type="decimal" Precision="5" Scale="2" />
+    <Property Name="Durum" Type="bit" />
+  </EntityType>
+  <EntityType Name="TLBOGRENCİ">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Ad" Type="nchar" MaxLength="20" />
+    <Property Name="Soyad" Type="nchar" MaxLength="20" />
+    <Property Name="Fotograf" Type="nchar" MaxLength="100" />
+  </EntityType>
+  <Association Name="FK_TLBNOTLAR_TLBDERS">
+    <End Role="TLBDERS" Type="Self.TLBDERS" Multiplicity="0..1" />
+    <End Role="TLBNOTLAR" Type="Self.TLBNOTLAR" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TLBDERS">
+        <PropertyRef Name="DersID" />
+      </Principal>
+      <Dependent Role="TLBNOTLAR">
+        <PropertyRef Name="Ders" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TLBNOTLAR_TLBOGRENCİ">
+    <End Role="TLBOGRENCİ" Type="Self.TLBOGRENCİ" Multiplicity="0..1" />
+    <End Role="TLBNOTLAR" Type="Self.TLBNOTLAR" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TLBOGRENCİ">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TLBNOTLAR">
+        <PropertyRef Name="Ogr" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DbSınavOgrenciModelStoreContainer">
+    <EntitySet Name="TLBDERS" EntityType="Self.TLBDERS" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TLBKULUP" EntityType="Self.TLBKULUP" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TLBNOTLAR" EntityType="Self.TLBNOTLAR" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TLBOGRENCİ" EntityType="Self.TLBOGRENCİ" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_TLBNOTLAR_TLBDERS" Association="Self.FK_TLBNOTLAR_TLBDERS">
+      <End Role="TLBDERS" EntitySet="TLBDERS" />
+      <End Role="TLBNOTLAR" EntitySet="TLBNOTLAR" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TLBNOTLAR_TLBOGRENCİ" Association="Self.FK_TLBNOTLAR_TLBOGRENCİ">
+      <End Role="TLBOGRENCİ" EntitySet="TLBOGRENCİ" />
+      <End Role="TLBNOTLAR" EntitySet="TLBNOTLAR" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

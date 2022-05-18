@@ -1,0 +1,233 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DbSınavOgrenciModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TLBDERS">
+          <Key>
+            <PropertyRef Name="DersID" />
+          </Key>
+          <Property Name="DersID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DersAd" Type="nchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="TLBKULUP">
+          <Key>
+            <PropertyRef Name="kulupID" />
+          </Key>
+          <Property Name="kulupID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="kulupAD" Type="nchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="TLBNOTLAR">
+          <Key>
+            <PropertyRef Name="NotID" />
+          </Key>
+          <Property Name="NotID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ogr" Type="int" />
+          <Property Name="Ders" Type="int" />
+          <Property Name="Sınav1" Type="smallint" />
+          <Property Name="Sınav2" Type="smallint" />
+          <Property Name="Sınav3" Type="smallint" />
+          <Property Name="Ortalama" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="Durum" Type="bit" />
+        </EntityType>
+        <EntityType Name="TLBOGRENCİ">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ad" Type="nchar" MaxLength="20" />
+          <Property Name="Soyad" Type="nchar" MaxLength="20" />
+          <Property Name="Fotograf" Type="nchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK_TLBNOTLAR_TLBDERS">
+          <End Role="TLBDERS" Type="Self.TLBDERS" Multiplicity="0..1" />
+          <End Role="TLBNOTLAR" Type="Self.TLBNOTLAR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TLBDERS">
+              <PropertyRef Name="DersID" />
+            </Principal>
+            <Dependent Role="TLBNOTLAR">
+              <PropertyRef Name="Ders" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TLBNOTLAR_TLBOGRENCİ">
+          <End Role="TLBOGRENCİ" Type="Self.TLBOGRENCİ" Multiplicity="0..1" />
+          <End Role="TLBNOTLAR" Type="Self.TLBNOTLAR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TLBOGRENCİ">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TLBNOTLAR">
+              <PropertyRef Name="Ogr" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DbSınavOgrenciModelStoreContainer">
+          <EntitySet Name="TLBDERS" EntityType="Self.TLBDERS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TLBKULUP" EntityType="Self.TLBKULUP" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TLBNOTLAR" EntityType="Self.TLBNOTLAR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TLBOGRENCİ" EntityType="Self.TLBOGRENCİ" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_TLBNOTLAR_TLBDERS" Association="Self.FK_TLBNOTLAR_TLBDERS">
+            <End Role="TLBDERS" EntitySet="TLBDERS" />
+            <End Role="TLBNOTLAR" EntitySet="TLBNOTLAR" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TLBNOTLAR_TLBOGRENCİ" Association="Self.FK_TLBNOTLAR_TLBOGRENCİ">
+            <End Role="TLBOGRENCİ" EntitySet="TLBOGRENCİ" />
+            <End Role="TLBNOTLAR" EntitySet="TLBNOTLAR" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DbSınavOgrenciModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TLBDERS">
+          <Key>
+            <PropertyRef Name="DersID" />
+          </Key>
+          <Property Name="DersID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DersAd" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="TLBNOTLAR" Relationship="Self.FK_TLBNOTLAR_TLBDERS" FromRole="TLBDERS" ToRole="TLBNOTLAR" />
+        </EntityType>
+        <EntityType Name="TLBNOTLAR">
+          <Key>
+            <PropertyRef Name="NotID" />
+          </Key>
+          <Property Name="NotID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ogr" Type="Int32" />
+          <Property Name="Ders" Type="Int32" />
+          <Property Name="Sınav1" Type="Int16" />
+          <Property Name="Sınav2" Type="Int16" />
+          <Property Name="Sınav3" Type="Int16" />
+          <Property Name="Ortalama" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="Durum" Type="Boolean" />
+          <NavigationProperty Name="TLBDERS" Relationship="Self.FK_TLBNOTLAR_TLBDERS" FromRole="TLBNOTLAR" ToRole="TLBDERS" />
+          <NavigationProperty Name="TLBOGRENCİ" Relationship="Self.FK_TLBNOTLAR_TLBOGRENCİ" FromRole="TLBNOTLAR" ToRole="TLBOGRENCİ" />
+        </EntityType>
+        <EntityType Name="TLBOGRENCİ">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ad" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Soyad" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Fotograf" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="TLBNOTLAR" Relationship="Self.FK_TLBNOTLAR_TLBOGRENCİ" FromRole="TLBOGRENCİ" ToRole="TLBNOTLAR" />
+        </EntityType>
+        <Association Name="FK_TLBNOTLAR_TLBDERS">
+          <End Role="TLBDERS" Type="Self.TLBDERS" Multiplicity="0..1" />
+          <End Role="TLBNOTLAR" Type="Self.TLBNOTLAR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TLBDERS">
+              <PropertyRef Name="DersID" />
+            </Principal>
+            <Dependent Role="TLBNOTLAR">
+              <PropertyRef Name="Ders" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TLBNOTLAR_TLBOGRENCİ">
+          <End Role="TLBOGRENCİ" Type="Self.TLBOGRENCİ" Multiplicity="0..1" />
+          <End Role="TLBNOTLAR" Type="Self.TLBNOTLAR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TLBOGRENCİ">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TLBNOTLAR">
+              <PropertyRef Name="Ogr" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DbSınavOgrenciEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TLBDERS" EntityType="Self.TLBDERS" />
+          <EntitySet Name="TLBNOTLAR" EntityType="Self.TLBNOTLAR" />
+          <EntitySet Name="TLBOGRENCİ" EntityType="Self.TLBOGRENCİ" />
+          <AssociationSet Name="FK_TLBNOTLAR_TLBDERS" Association="Self.FK_TLBNOTLAR_TLBDERS">
+            <End Role="TLBDERS" EntitySet="TLBDERS" />
+            <End Role="TLBNOTLAR" EntitySet="TLBNOTLAR" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TLBNOTLAR_TLBOGRENCİ" Association="Self.FK_TLBNOTLAR_TLBOGRENCİ">
+            <End Role="TLBOGRENCİ" EntitySet="TLBOGRENCİ" />
+            <End Role="TLBNOTLAR" EntitySet="TLBNOTLAR" />
+          </AssociationSet>
+          <EntitySet Name="TLBKULUP" EntityType="DbSınavOgrenciModel.TLBKULUP" />
+        </EntityContainer>
+        <EntityType Name="TLBKULUP">
+          <Key>
+            <PropertyRef Name="kulupID" />
+          </Key>
+          <Property Name="kulupID" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="kulupAD" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DbSınavOgrenciModelStoreContainer" CdmEntityContainer="DbSınavOgrenciEntities">
+          <EntitySetMapping Name="TLBDERS">
+            <EntityTypeMapping TypeName="DbSınavOgrenciModel.TLBDERS">
+              <MappingFragment StoreEntitySet="TLBDERS">
+                <ScalarProperty Name="DersID" ColumnName="DersID" />
+                <ScalarProperty Name="DersAd" ColumnName="DersAd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TLBNOTLAR">
+            <EntityTypeMapping TypeName="DbSınavOgrenciModel.TLBNOTLAR">
+              <MappingFragment StoreEntitySet="TLBNOTLAR">
+                <ScalarProperty Name="NotID" ColumnName="NotID" />
+                <ScalarProperty Name="Ogr" ColumnName="Ogr" />
+                <ScalarProperty Name="Ders" ColumnName="Ders" />
+                <ScalarProperty Name="Sınav1" ColumnName="Sınav1" />
+                <ScalarProperty Name="Sınav2" ColumnName="Sınav2" />
+                <ScalarProperty Name="Sınav3" ColumnName="Sınav3" />
+                <ScalarProperty Name="Ortalama" ColumnName="Ortalama" />
+                <ScalarProperty Name="Durum" ColumnName="Durum" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TLBOGRENCİ">
+            <EntityTypeMapping TypeName="DbSınavOgrenciModel.TLBOGRENCİ">
+              <MappingFragment StoreEntitySet="TLBOGRENCİ">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="Soyad" ColumnName="Soyad" />
+                <ScalarProperty Name="Fotograf" ColumnName="Fotograf" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TLBKULUP">
+            <EntityTypeMapping TypeName="DbSınavOgrenciModel.TLBKULUP">
+              <MappingFragment StoreEntitySet="TLBKULUP">
+                <ScalarProperty Name="kulupAD" ColumnName="kulupAD" />
+                <ScalarProperty Name="kulupID" ColumnName="kulupID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
